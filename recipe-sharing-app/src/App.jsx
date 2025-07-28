@@ -1,14 +1,15 @@
 // src/App.jsx
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'; // Import routing components
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import RecipeList from './components/RecipeList';
 import AddRecipeForm from './components/AddRecipeForm';
-import RecipeDetails from './components/RecipeDetails'; // New: RecipeDetails component
-import EditRecipeForm from './components/EditRecipeForm'; // New: EditRecipeForm component
+import RecipeDetails from './components/RecipeDetails';
+import EditRecipeForm from './components/EditRecipeForm';
+import SearchBar from './components/SearchBar'; // Import the new SearchBar component
 
 function App() {
   return (
-    <Router> {/* Wrap your entire application with BrowserRouter */}
+    <Router>
       <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
         <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Recipe Sharing Application</h1>
         
@@ -20,23 +21,27 @@ function App() {
 
         {/* Define your routes */}
         <Routes>
-          {/* Home page - shows AddRecipeForm and RecipeList */}
+          {/* Home page - now includes SearchBar, AddRecipeForm, and RecipeList */}
           <Route path="/" element={
             <>
+              <SearchBar /> {/* Place SearchBar prominently */}
               <AddRecipeForm />
               <RecipeList />
             </>
           } />
           
           {/* Route for adding a new recipe (can be a dedicated page if desired) */}
-          <Route path="/add" element={<AddRecipeForm />} />
+          <Route path="/add" element={
+            <>
+              <AddRecipeForm />
+              <Link to="/" style={{ display: 'block', marginTop: '20px', color: '#007bff', textDecoration: 'none' }}>← Back to All Recipes</Link>
+            </>
+          } />
 
           {/* Route for individual recipe details */}
-          {/* :recipeId is a URL parameter that will be available via useParams() */}
           <Route path="/recipes/:recipeId" element={<RecipeDetails />} />
           
           {/* Route for editing an individual recipe */}
-          {/* We pass the recipeId from the URL parameter to the EditRecipeForm */}
           <Route path="/recipes/:recipeId/edit" element={<EditRecipeForm />} />
         </Routes>
       </div>
