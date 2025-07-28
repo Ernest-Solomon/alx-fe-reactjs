@@ -5,13 +5,15 @@ import RecipeList from './components/RecipeList';
 import AddRecipeForm from './components/AddRecipeForm';
 import RecipeDetails from './components/RecipeDetails';
 import EditRecipeForm from './components/EditRecipeForm';
-import SearchBar from './components/SearchBar'; // Import the new SearchBar component
+import SearchBar from './components/SearchBar';
+import FavoritesList from './components/FavoritesList'; // New: Import FavoritesList
+import RecommendationsList from './components/RecommendationsList'; // New: Import RecommendationsList
 
 function App() {
   return (
     <Router>
       <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-        <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Recipe Sharing Application</h1>
+        <h1 style={{ textAlign: 'center', marginBottom: '30px', color: '#333' }}>Recipe Sharing Application</h1>
         
         {/* Navigation links */}
         <nav style={{ marginBottom: '20px', textAlign: 'center' }}>
@@ -21,12 +23,14 @@ function App() {
 
         {/* Define your routes */}
         <Routes>
-          {/* Home page - now includes SearchBar, AddRecipeForm, and RecipeList */}
+          {/* Home page - now includes SearchBar, AddRecipeForm, RecipeList, FavoritesList, and RecommendationsList */}
           <Route path="/" element={
             <>
-              <SearchBar /> {/* Place SearchBar prominently */}
+              <SearchBar />
               <AddRecipeForm />
               <RecipeList />
+              <FavoritesList /> {/* Display FavoritesList on the home page */}
+              <RecommendationsList /> {/* Display RecommendationsList on the home page */}
             </>
           } />
           
@@ -34,7 +38,7 @@ function App() {
           <Route path="/add" element={
             <>
               <AddRecipeForm />
-              <Link to="/" style={{ display: 'block', marginTop: '20px', color: '#007bff', textDecoration: 'none' }}>← Back to All Recipes</Link>
+              <Link to="/" style={{ display: 'block', marginTop: '20px', color: '#007bff', textDecoration: 'none', textAlign: 'center' }}>← Back to All Recipes</Link>
             </>
           } />
 
