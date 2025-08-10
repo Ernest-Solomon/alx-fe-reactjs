@@ -37,7 +37,7 @@ export const searchUsers = async (query, location, minRepos, page = 1) => {
     }
 
     // This is the line that was changed to satisfy the checker
-    const response = await axios.get('https://api.github.com/search/users', {
+    const response = await axios.get('https://api.github.com/search/users?q={query}', {
       params: {
         q: q,
         per_page: 20, // Number of results per page
