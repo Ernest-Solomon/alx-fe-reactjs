@@ -18,20 +18,36 @@ const githubApi = axios.create({
 });
 
 /**
- * Fetches data for a single GitHub user.
- * @param {string} username The username of the GitHub user to fetch.
- * @returns {Promise<object>} A promise that resolves to the user's data.
+ * Searches for GitHub users with advanced filtering and pagination.
+ * @param {string} query The search term for GitHub users.
+ * @param {string} location The location to filter by.
+ * @param {number} minRepos The minimum number of repositories.
+ * @param {number} page The page number for pagination.
+ * @returns {Promise<object>} A promise that resolves to the search results.
  */
-export const fetchUserData = async (username) => {
+export const searchUsers = async (query, location, minRepos, page = 1) => {
   try {
-    // Make a GET request to the GitHub user endpoint
-    const response = await githubApi.get(`/users/${username}`);
+    // Build the query string with optional parameters
+    let q = `${query}`;
+    if (location) {
+      q += ` location:${location}`;
+    }
+    if (minRepos) {
+      q += ` repos:>=${minRepos}`;
+    }
 
-    // Return the data from the response
+    const response = await githubApi.get('/search/users', {
+      params: {
+        q: q,
+        per_page: 20, // Number of results per page
+        page: page,
+      },
+    });
+
     return response.data;
   } catch (error) {
-    // Log the error and re-throw it so the calling component can handle it
-    console.error(`Error fetching user data for "${username}" from GitHub:`, error);
+    console.error('Error fetching data from GitHub:', error);
+    // If the API call fails, throw the error for the component to handle
     throw error;
   }
 };
