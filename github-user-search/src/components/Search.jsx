@@ -1,3 +1,4 @@
+// New line to trigger a Git change
 // src/components/Search.jsx
 import React, { useState } from 'react';
 import { searchUsers } from '../services/githubService';
