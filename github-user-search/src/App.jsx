@@ -1,10 +1,7 @@
 // src/App.jsx
 import React from 'react';
-// Change this line:
-// import UserSearch from './components/UserSearch';
-// To this:
 import Search from './components/Search';
-import './App.css'; 
+import './App.css'; // Make sure to import your CSS file
 
 function App() {
   return (
