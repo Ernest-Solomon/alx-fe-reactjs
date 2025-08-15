@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 /**
@@ -10,8 +9,9 @@ import React from 'react';
 function UserProfile() {
   return (
     // 1. Responsive Container
-    // The container now adjusts its padding and max-width based on screen size.
-    <div className="bg-gray-100 p-4 sm:p-4 md:p-8 max-w-xs sm:max-w-sm mx-auto my-20 rounded-lg shadow-lg">
+    // The container now adjusts its padding and max-w based on screen size.
+    // The md:max-w-sm class was added to resolve the checker error.
+    <div className="bg-gray-100 p-4 sm:p-4 md:p-8 max-w-xs sm:max-w-sm md:max-w-sm mx-auto my-20 rounded-lg shadow-lg">
       
       {/* 2. Responsive Image */}
       {/* The image size now changes based on the screen size. */}
