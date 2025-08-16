@@ -1,15 +1,19 @@
-// src/App.jsx
 import React from 'react';
-// Corrected import to include the .jsx file extension
-import HomePage from './components/HomePage.jsx';
-// Changed import to use App.css, which is the default for many Vite templates
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './components/HomePage';
+import RecipeDetail from './components/RecipeDetail';
+import './App.css'; // Your project's main CSS file
 
 function App() {
   return (
-    <div>
-      <HomePage />
-    </div>
+    <Router>
+      <Routes>
+        {/* Route for the Home Page */}
+        <Route path="/" element={<HomePage />} />
+        {/* Route for the Recipe Detail Page, with a dynamic ID parameter */}
+        <Route path="/recipe/:id" element={<RecipeDetail />} />
+      </Routes>
+    </Router>
   );
 }
 
