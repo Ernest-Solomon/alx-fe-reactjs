@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 /**
  * The HomePage component displays a responsive grid of recipe cards.
@@ -6,18 +7,29 @@ import React, { useState, useEffect } from 'react';
  */
 function HomePage() {
   const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // useEffect hook to fetch data when the component mounts
   useEffect(() => {
-    // Importing the JSON file directly. In a real-world app, you'd use a fetch API call.
+    // Use a dynamic import for better compatibility with bundlers
     import('../data.json')
-      .then((module) => {
+      .then(module => {
         setRecipes(module.default);
+        setLoading(false);
       })
-      .catch((error) => {
-        console.error("Failed to fetch recipes:", error);
+      .catch(error => {
+        console.error("Failed to load recipes:", error);
+        setLoading(false);
       });
   }, []); // Empty dependency array ensures this effect runs only once
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <p className="text-xl text-gray-700">Loading recipes...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto p-4 sm:p-6 md:p-8">
@@ -28,9 +40,10 @@ function HomePage() {
       {/* Responsive Grid Layout */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
         {recipes.map((recipe) => (
-          // Recipe Card with interactive hover effects
-          <div
+          // Wrap each recipe card in a Link component for navigation
+          <Link
             key={recipe.id}
+            to={`/recipe/${recipe.id}`} // This creates the dynamic link
             className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 overflow-hidden"
           >
             {/* Recipe Image */}
@@ -49,7 +62,7 @@ function HomePage() {
                 {recipe.summary}
               </p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
