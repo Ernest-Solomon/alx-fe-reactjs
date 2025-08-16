@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "Spaghetti Carbonara",
+    "summary": "A classic Italian pasta dish with eggs, cheese, bacon, and black pepper. It's known for its creamy, rich texture without using cream.",
+    "image": "https://images.unsplash.com/photo-1588019803157-2277d33b000a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxjcmlzcGllJTIwdHJhbnNpb24lMjBmb3IlMjB0aGUlMjBzdXBlcnNvbmljJTIwY29udGFpbmVyfGVufDB8fHx8MTcyNDA5ODQ4MHww&ixlib=rb-4.0.3&q=80&w=400"
+  },
+  {
+    "id": 2,
+    "title": "Chicken Tikka Masala",
+    "summary": "Chunks of grilled chicken (tikka) cooked in a smooth, buttery, and creamy tomato-based gravy. A popular dish that originated in the UK.",
+    "image": "https://images.unsplash.com/photo-1594916895318-97e3f8907869?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxjaGljZW4lMjB0aWtrYSUyMG1hc2FsYXxlbnwwfHx8fDE3MjQwOTg1MDF8MA&ixlib=rb-4.0.3&q=80&w=400"
+  },
+  {
+    "id": 3,
+    "title": "Vegetable Stir-Fry",
+    "summary": "A quick and healthy dish loaded with fresh vegetables and a savory sauce. It's a versatile meal that can be customized with any vegetables you have.",
+    "image": "https://images.unsplash.com/photo-1599818814774-78330b62e49c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHx2ZWdldGFibGUlMjBzdGlyLWZyeXxlbnwwfHx8fDE3MjQwOTg1MjJ8MA&ixlib=rb-4.0.3&q=80&w=400"
+  },
+  {
+    "id": 4,
+    "title": "Classic Beef Lasagna",
+    "summary": "Layers of rich meat sauce, creamy béchamel, and sheets of pasta, topped with melted cheese. A perfect comfort food for family dinners.",
+    "image": "https://images.unsplash.com/photo-1570774656111-e4070a79a614?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxsYXNhZ25hfGVufDB8fHx8MTcyNDA5ODU1OXww&ixlib=rb-4.0.3&q=80&w=400"
+  },
+  {
+    "id": 5,
+    "title": "Margherita Pizza",
+    "summary": "A simple Neapolitan pizza topped with San Marzano tomatoes, mozzarella cheese, fresh basil, and extra-virgin olive oil.",
+    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxtYXJnaGVyaXRhJTIwcGl6emF8ZW58MHx8fHwxNzI0MDk4NTg3fDA&ixlib=rb-4.0.3&q=80&w=400"
+  }
+]
