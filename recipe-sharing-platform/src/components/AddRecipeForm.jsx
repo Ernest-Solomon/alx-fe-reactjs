@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 
 /**
@@ -9,30 +10,53 @@ function AddRecipeForm() {
   // State for form fields
   const [title, setTitle] = useState('');
   const [ingredients, setIngredients] = useState('');
-  const [steps, setSteps] = useState(''); // Updated from instructions to steps
+  const [steps, setSteps] = useState(''); 
   
   // State for form validation and status messages
   const [status, setStatus] = useState({ message: '', type: '' });
+  const [errors, setErrors] = useState({}); // State to hold validation errors
 
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Reset status message
+    // Reset status and errors
     setStatus({ message: '', type: '' });
+    setErrors({});
 
-    // Simple validation checks
-    if (!title.trim() || !ingredients.trim() || !steps.trim()) {
-      setStatus({ message: 'Please fill in all fields.', type: 'error' });
+    // Perform validation and collect errors
+    const validate = () => {
+      let formErrors = {};
+      if (!title.trim()) {
+        formErrors.title = "Recipe title is required.";
+      }
+      if (!ingredients.trim()) {
+        formErrors.ingredients = "Ingredients are required.";
+      }
+      if (!steps.trim()) {
+        formErrors.steps = "Preparation steps are required.";
+      }
+      return formErrors;
+    };
+    
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setStatus({ message: 'Please correct the form errors.', type: 'error' });
       return;
     }
 
     const ingredientsArray = ingredients.split('\n').filter(item => item.trim() !== '');
-    const stepsArray = steps.split('\n').filter(item => item.trim() !== ''); // Updated from instructions to steps
+    const stepsArray = steps.split('\n').filter(item => item.trim() !== '');
 
     // Check if there are at least two ingredients and two steps
     if (ingredientsArray.length < 2 || stepsArray.length < 2) {
-      setStatus({ message: 'Please add at least two ingredients and two steps.', type: 'error' });
+      setErrors({ 
+        ...errors, // Preserve other errors if any
+        ingredients: ingredientsArray.length < 2 ? 'Please add at least two ingredients.' : '',
+        steps: stepsArray.length < 2 ? 'Please add at least two steps.' : ''
+      });
+      setStatus({ message: 'Please correct the form errors.', type: 'error' });
       return;
     }
 
@@ -43,7 +67,7 @@ function AddRecipeForm() {
       id: Date.now(), 
       title,
       ingredients: ingredientsArray,
-      steps: stepsArray, // Updated from instructions to steps
+      steps: stepsArray,
       summary: "New recipe added by the user.", // A simple summary for the new recipe
       image: "https://placehold.co/600x400/D1D5DB/1F2937?text=New+Recipe"
     };
@@ -55,7 +79,7 @@ function AddRecipeForm() {
     setStatus({ message: 'Recipe submitted successfully!', type: 'success' });
     setTitle('');
     setIngredients('');
-    setSteps(''); // Updated from instructions to steps
+    setSteps('');
   };
 
   return (
@@ -86,9 +110,12 @@ function AddRecipeForm() {
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className={`mt-1 block w-full p-3 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                errors.title ? 'border-red-500' : 'border-gray-300'
+              }`}
               placeholder="e.g., Spicy Chicken Tacos"
             />
+            {errors.title && <p className="mt-2 text-sm text-red-600">{errors.title}</p>}
           </div>
 
           {/* Ingredients Textarea */}
@@ -101,9 +128,12 @@ function AddRecipeForm() {
               value={ingredients}
               onChange={(e) => setIngredients(e.target.value)}
               rows="6"
-              className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y"
+              className={`mt-1 block w-full p-3 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y ${
+                errors.ingredients ? 'border-red-500' : 'border-gray-300'
+              }`}
               placeholder="e.g.,&#10;2 chicken breasts&#10;1 teaspoon cumin&#10;1/2 onion"
             />
+            {errors.ingredients && <p className="mt-2 text-sm text-red-600">{errors.ingredients}</p>}
           </div>
 
           {/* Steps Textarea */}
@@ -112,13 +142,16 @@ function AddRecipeForm() {
               Preparation Steps (one per line)
             </label>
             <textarea
-              id="steps" // Updated from instructions to steps
-              value={steps} // Updated from instructions to steps
-              onChange={(e) => setSteps(e.target.value)} // Updated from instructions to steps
+              id="steps"
+              value={steps}
+              onChange={(e) => setSteps(e.target.value)}
               rows="6"
-              className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y"
+              className={`mt-1 block w-full p-3 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y ${
+                errors.steps ? 'border-red-500' : 'border-gray-300'
+              }`}
               placeholder="e.g.,&#10;1. Cook the chicken.&#10;2. Shred the cooked chicken.&#10;3. Serve on tortillas."
             />
+            {errors.steps && <p className="mt-2 text-sm text-red-600">{errors.steps}</p>}
           </div>
 
           {/* Submit Button */}
