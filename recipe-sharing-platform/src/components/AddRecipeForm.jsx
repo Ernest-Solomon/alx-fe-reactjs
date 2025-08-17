@@ -9,7 +9,7 @@ function AddRecipeForm() {
   // State for form fields
   const [title, setTitle] = useState('');
   const [ingredients, setIngredients] = useState('');
-  const [instructions, setInstructions] = useState('');
+  const [steps, setSteps] = useState(''); // Updated from instructions to steps
   
   // State for form validation and status messages
   const [status, setStatus] = useState({ message: '', type: '' });
@@ -22,17 +22,17 @@ function AddRecipeForm() {
     setStatus({ message: '', type: '' });
 
     // Simple validation checks
-    if (!title.trim() || !ingredients.trim() || !instructions.trim()) {
+    if (!title.trim() || !ingredients.trim() || !steps.trim()) {
       setStatus({ message: 'Please fill in all fields.', type: 'error' });
       return;
     }
 
     const ingredientsArray = ingredients.split('\n').filter(item => item.trim() !== '');
-    const instructionsArray = instructions.split('\n').filter(item => item.trim() !== '');
+    const stepsArray = steps.split('\n').filter(item => item.trim() !== ''); // Updated from instructions to steps
 
-    // Check if there are at least two ingredients and instructions
-    if (ingredientsArray.length < 2 || instructionsArray.length < 2) {
-      setStatus({ message: 'Please add at least two ingredients and two instructions.', type: 'error' });
+    // Check if there are at least two ingredients and two steps
+    if (ingredientsArray.length < 2 || stepsArray.length < 2) {
+      setStatus({ message: 'Please add at least two ingredients and two steps.', type: 'error' });
       return;
     }
 
@@ -43,7 +43,7 @@ function AddRecipeForm() {
       id: Date.now(), 
       title,
       ingredients: ingredientsArray,
-      instructions: instructionsArray,
+      steps: stepsArray, // Updated from instructions to steps
       summary: "New recipe added by the user.", // A simple summary for the new recipe
       image: "https://placehold.co/600x400/D1D5DB/1F2937?text=New+Recipe"
     };
@@ -55,7 +55,7 @@ function AddRecipeForm() {
     setStatus({ message: 'Recipe submitted successfully!', type: 'success' });
     setTitle('');
     setIngredients('');
-    setInstructions('');
+    setSteps(''); // Updated from instructions to steps
   };
 
   return (
@@ -106,15 +106,15 @@ function AddRecipeForm() {
             />
           </div>
 
-          {/* Instructions Textarea */}
+          {/* Steps Textarea */}
           <div>
-            <label htmlFor="instructions" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="steps" className="block text-sm font-medium text-gray-700">
               Preparation Steps (one per line)
             </label>
             <textarea
-              id="instructions"
-              value={instructions}
-              onChange={(e) => setInstructions(e.target.value)}
+              id="steps" // Updated from instructions to steps
+              value={steps} // Updated from instructions to steps
+              onChange={(e) => setSteps(e.target.value)} // Updated from instructions to steps
               rows="6"
               className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y"
               placeholder="e.g.,&#10;1. Cook the chicken.&#10;2. Shred the cooked chicken.&#10;3. Serve on tortillas."
