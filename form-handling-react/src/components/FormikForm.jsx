@@ -1,115 +1,124 @@
-import React, { useState } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
-/**
- * A user registration form that uses controlled components.
- * State is managed manually with React's useState hook.
- */
-const ControlledForm = () => {
-  // State for each form field and for handling loading/errors
-  const [formData, setFormData] = useState({
+// Validation schema using Yup
+const validationSchema = Yup.object({
+  username: Yup.string()
+    .min(3, 'Username must be at least 3 characters')
+    .required('Username is required'),
+  email: Yup.string()
+    .email('Please enter a valid email address')
+    .required('Email is required'),
+  password: Yup.string()
+    .min(6, 'Password must be at least 6 characters long')
+    .required('Password is required')
+});
+
+const FormikForm = () => {
+  // Initial values for the form
+  const initialValues = {
     username: '',
     email: '',
-    password: '',
-  });
-  const [status, setStatus] = useState({
-    loading: false,
-    error: null,
-    success: null
-  });
-
-  // Handle changes to any input field
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: value
-    }));
+    password: ''
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus({ loading: true, error: null, success: null });
-
-    // Basic validation to check for empty fields
-    if (!formData.username || !formData.email || !formData.password) {
-      setStatus({ loading: false, error: "All fields are required.", success: null });
-      return;
-    }
-
-    // Simulate an API call
+  const handleSubmit = async (values, { setSubmitting, resetForm, setStatus }) => {
     try {
-      console.log("Submitting form data (Controlled Components):", formData);
-      const response = await new Promise((resolve) => {
-        setTimeout(() => {
-          console.log("Mock API Response: Success");
-          resolve({ ok: true });
-        }, 1500); // Simulate network delay
+      console.log('Submitting registration data:', values);
+      
+      // Mock API call simulation
+      const response = await fetch('https://jsonplaceholder.typicode.com/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
       });
 
       if (response.ok) {
-        setStatus({ loading: false, error: null, success: "Registration successful!" });
+        const result = await response.json();
+        console.log('Registration successful:', result);
+        setStatus({ type: 'success', message: 'User registered successfully!' });
+        
+        // Reset form after successful submission
+        resetForm();
+        
+        // Show success alert
+        alert('User registered successfully!');
       } else {
-        setStatus({ loading: false, error: "Registration failed. Please try again.", success: null });
+        throw new Error('Registration failed');
       }
     } catch (error) {
-      console.error("Submission Error:", error);
-      setStatus({ loading: false, error: "An unexpected error occurred.", success: null });
+      console.error('Error during registration:', error);
+      setStatus({ type: 'error', message: 'Registration failed. Please try again.' });
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-8 rounded-xl shadow-lg bg-white">
-      <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Controlled Form</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </div>
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </div>
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={status.loading}
-          className={`w-full py-2 px-4 rounded-md font-semibold text-white transition-colors duration-200 ${
-            status.loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'
-          }`}
-        >
-          {status.loading ? 'Registering...' : 'Register'}
-        </button>
-      </form>
-      {status.error && <p className="mt-4 text-sm text-red-600 text-center">{status.error}</p>}
-      {status.success && <p className="mt-4 text-sm text-green-600 text-center">{status.success}</p>}
+    <div className="registration-form-container">
+      <h2>User Registration Form (Formik)</h2>
+      
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting, status }) => (
+          <Form className="registration-form">
+            <div className="form-group">
+              <label htmlFor="username">Username:</label>
+              <Field
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Enter your username"
+              />
+              <ErrorMessage name="username" component="span" className="error-message" />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email">Email:</label>
+              <Field
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+              />
+              <ErrorMessage name="email" component="span" className="error-message" />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Password:</label>
+              <Field
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+              />
+              <ErrorMessage name="password" component="span" className="error-message" />
+            </div>
+
+            {status && (
+              <div className={`status-message ${status.type}`}>
+                {status.message}
+              </div>
+            )}
+
+            <button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="submit-button"
+            >
+              {isSubmitting ? 'Registering...' : 'Register'}
+            </button>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };
 
-export default ControlledForm;
-  
+export default FormikForm;
