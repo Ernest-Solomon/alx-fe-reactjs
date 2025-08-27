@@ -1,7 +1,7 @@
 import React from 'react';
 import ControlledForm from './components/ControlledForm';
 import FormikForm from './components/FormikForm';
-import './index.css'; // Make sure this file exists with the Tailwind directives
+import './index.css';
 
 const App = () => {
   return (
