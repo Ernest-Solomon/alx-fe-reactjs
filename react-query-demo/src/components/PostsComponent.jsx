@@ -19,6 +19,7 @@ const PostsComponent = () => {
   const {
     data: posts,
     isLoading,
+    isError,  // Added isError property
     error,
     refetch,
     isFetching,
@@ -32,6 +33,7 @@ const PostsComponent = () => {
       cacheTime: 10 * 60 * 1000, // 10 minutes
       refetchOnWindowFocus: false, // Don't refetch on window focus
       retry: 3, // Retry 3 times on failure
+      keepPreviousData: true, // Keep previous data while fetching new data
     }
   );
 
@@ -72,7 +74,7 @@ const PostsComponent = () => {
     );
   }
 
-  if (isError) {
+  if (isError) {  // You can use either isError or error for condition checking
     return (
       <div className="posts-container">
         <div className="error-state">
