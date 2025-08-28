@@ -72,7 +72,7 @@ const PostsComponent = () => {
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
       <div className="posts-container">
         <div className="error-state">
